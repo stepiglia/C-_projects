@@ -66,11 +66,11 @@ int cercaAgente(agente *lista, int id);
 
 int main()
 {
-    int ora, data, idVigile, mese;
+    int ora, data, idVigile, mese; //acquisisco i dati della contravvenzione che poi uso in struttura
     char targa[STR], codInfraz[STR];
-    contravv *contravvenzioni=NULL; //Lista delle contravvenzioni
+    contravv *contravvenzioni=NULL; //Lista delle contravvenzioni è nulla
 
-    //Inserisce primo elemento
+    //Inserisce primo elemento, anzichè di farlo da tastiera quando questo esegue li inserisce
     idVigile=1234; data=200312; ora=1722; strcpy(targa,"AC123CA"); strcpy(codInfraz,"CS123");
     accodaMulta(contravvenzioni, idVigile, data, ora, targa, codInfraz);
     
@@ -133,19 +133,19 @@ int accodaMulta(contravv * &lista, int idVigile, int data, int ora, char targa[]
     tmp->ora=ora;
     strcpy(tmp->targa, targa); //used to copy one string to another, library string.h
     strcpy(tmp->codInfraz, codInfraz); //ATT! Per stringa1 = stringa2 NON  si possono assegnare con uguale 
-    tmp->next=NULL;
+    tmp->next=NULL; //perchè non c'è nulla dopo il primo elemento per ora
 
-    if(lista==NULL)
+    if(lista==NULL) //se la lista è nulla metto solo l'elemento che sto inserendo
         lista=tmp;
     else{                //La lista non e' vuota
         prec=cercaPrec(lista, data, ora);
-        if(prec==NULL){  //Si inserisce in testa alla lista
-            tmp->next=lista;
+        if(prec==NULL){  //Si inserisce in testa alla lista se non la trova
+            tmp->next=lista; 
             lista=tmp;
         }
         else{            //Inserisce dopo l'elemento puntato da prec
-            tmp->next=prec->next;
-            prec->next=tmp;
+            tmp->next=prec->next; //Inserisco l'info del nuovo elemento nel campo next, cioè quello creato da temp 
+            prec->next=tmp; // cambio il puntatore, dicendo che il nuovo elemento deve essere il successivo 
         }
     }
 
@@ -154,22 +154,22 @@ int accodaMulta(contravv * &lista, int idVigile, int data, int ora, char targa[]
 
 contravv *cercaPrec(contravv *lista, int data, int ora)
 {
-    contravv *tmp, *prec=NULL;
+    contravv *tmp, *prec=NULL; //non sappiamo ancora il puntatore a precedente per cui nullo
 
     if(lista==NULL) //Lista vuota
-        return lista;
-    else{
-        prec=NULL;
-        for (tmp=lista; tmp!=NULL; tmp=tmp->next)
-            if(data>=tmp->data)
+        return lista; //ritorno lista perchè non c'è problema di dove inserirlo
+    else{ //se non è vuota 
+        prec=NULL; // l'elemento precedente non lo conosciamo 
+        for (tmp=lista; tmp!=NULL; tmp=tmp->next) //scorro la lista fino a che non ho più elementi
+            if(data>=tmp->data) //se la data è più grande dell'input 
                 if(data==tmp->data && ora<tmp->ora) //A parita' di data si ordina in funzione dell'ora
-                    prec=tmp;
+                    prec=tmp; //allora temp è l'elemento precedente
                 else
-                    return prec;
+                    return prec; //altrimenti l'input ha l'ora più grande e diventa il prec
             else
-                prec=tmp;
+                prec=tmp; //se la data dell'input è minore allora ho trovato dove mettere 
     }
-    return prec;
+    return prec; //in tutti i casi quando abbiamo trovato ritorniamo prec
 }
 
 
@@ -185,9 +185,9 @@ int stampaContravv(contravv *punt)
         cout << setw(8) << punt->data/10000<<"/"<<(punt->data/100)%100<<"/"<<punt->data%100;
         cout << setw(6) << punt->ora/100<<":"<<punt->ora%100<<endl;
 
-        punt=punt->next;
+        punt=punt->next; // e li scorre al successivo
     }
-    cout << endl << endl;
+    cout << endl << endl; //metto spazi
     
     return 0;
 }
@@ -196,7 +196,7 @@ int stampaContravv(contravv *punt)
 non trovato aggiungiInTesta() e conta istanze nella lista multe*/
 int creaReport(contravv *lista, int mese)
 {
-    contravv *tempContravv=lista, *temp;
+    contravv *tempContravv=lista, *temp; //inizializzo variabili di tipo contravv e temp 
 
     agente *tempAg, *agenti=NULL;  //Lista di agenti con conteggio contravvenzioni
 
@@ -208,19 +208,19 @@ int creaReport(contravv *lista, int mese)
             tempAg=new agente;
             tempAg->id=tempContravv->idVigile;
             tempAg->count=1;
-            //aggiungiInTesta()
+            //aggiungiInTesta() 
             tempAg->next=agenti;
             agenti=tempAg;
-            //ContaAgenti()
+            //ContaAgenti() perchè sto stampando tutti gli altri 
             temp=tempContravv->next;
             while(temp!=NULL){
                 if(temp->idVigile==tempContravv->idVigile && (temp->data/100)%100==mese)
                     agenti->count++;
                 temp=temp->next;
             }
-        }
+        } //chiude if, se non c'è agente 
 
-        tempContravv=tempContravv->next;
+        tempContravv=tempContravv->next; //se esiste
     }
 
     stampaReport(agenti);
@@ -229,12 +229,12 @@ int creaReport(contravv *lista, int mese)
 
 int cercaAgente(agente *lista, int id)
 {
-    agente *tmp=lista;
-    while(tmp!=NULL)
-        if(tmp->id==id)
+    agente *tmp=lista; // puntatore a temp (l'input) di tipo agente è la nostra lista 
+    while(tmp!=NULL) //fintanto che temp non è nullo 
+        if(tmp->id==id) //se temp id è present, 1 = l'ho trovato
             return 1;
         else
-            tmp=tmp->next;
+            tmp=tmp->next; //altrimenti lo aggiungo alla lista degli agenti  
     return 0;
 }
 
