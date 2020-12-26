@@ -132,7 +132,7 @@ int accodaMulta(contravv * &lista, int idVigile, int data, int ora, char targa[]
     tmp->data=data;
     tmp->ora=ora;
     strcpy(tmp->targa, targa); //used to copy one string to another, library string.h
-    strcpy(tmp->codInfraz, codInfraz);
+    strcpy(tmp->codInfraz, codInfraz); //ATT! Per stringa1 = stringa2 NON  si possono assegnare con uguale 
     tmp->next=NULL;
 
     if(lista==NULL)
