@@ -40,15 +40,15 @@ int main(void)
 
 void inserimento(Nodo * &testa, int numero)
 {
-        Nodo *ptr=testa;  //testa è di tipo puntatore a nodo
-        while ((ptr!=0)&&(numero!=ptr->valore)) //fin tanto che puntatore non è zero e il numero è diverso dal puntatore di valore
-              ptr=ptr->nextPtr; //il puntatore diventa il puntatore al nuovo oggetto
+        Nodo *ptr=testa;  //creo un puntatore a testa 
+        while ((ptr!=0)&&(numero!=ptr->valore)) //fin tanto che c'è testa e non sto puntando al nodo con lo stesso valore che sto passando 
+              ptr=ptr->nextPtr; //continuo a scorrere
 
-        if (ptr==0){ //se il puntatore è zero
-           Nodo *temp=new Nodo; //creo un nuovo nodo temp
+        if (ptr==0){ //se non c'è testa
+           Nodo *temp=new Nodo; //creo un nuovo nodo 
            temp->valore=numero; //assegno il numero
-           temp->nextPtr=testa; //e lo faccio puntare alla testa della lista
-           testa=temp; //che non è altro che temp
+           temp->nextPtr=testa; //il puntatore di temp punta a testa 
+           testa=temp; //lo faccio scorrere
     }
 }
 
@@ -63,10 +63,10 @@ int calcolaMediana(Nodo *testa)
         
         //conteggio del numero di elementi contenuti nella lista
         for(ptr1 = testa; ptr1 != 0; ptr1 = ptr1->nextPtr) //scorro la lista
-                n++;
+                n++; //incremento il numero dei contatori della lista 
 
-        ptr1 = testa;    //posizionamento all'inizio della lista
-                        // con un secondo puntatore
+        ptr1 = testa;    //Assegno al puntatore la testa
+                        //
         do {
 
            //Conteggio di quanti elementi dell'insieme
@@ -90,7 +90,7 @@ int calcolaMediana(Nodo *testa)
 
                 ptr1 = ptr1->nextPtr;  //nodo successivo
 
-        } while (!(((minori    <= (n - 1)/2) && (maggiori <= n/2))
+        } while (!(((minori    <= (n - 1)/2) && (maggiori <= n/2)) //scorre la lista fintanto che non si verifica la condizione per cui si è trovata la mediana
                    ||((maggiori <= (n - 1)/2) && (minori    <= n/2))));
         
         return mediana;
