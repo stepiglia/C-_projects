@@ -1,8 +1,9 @@
 /*
 Il software incluso nei registratori di cassa prevede anche la struttura per la 
-memorizzazione di un singolo scontrino per volta. Uno scontrino Ë un elenco di 
-articoli di dimensione non nota a priori. Per ogni articolo Ë noto il codice 
-numerico (univoco), il prezzo unitario, la quantit‡ acquistata e una breve 
+memorizzazione di un singolo scontrino per volta. 
+
+Uno scontrino è un elenco di articoli di dimensione non nota a priori. Per ogni articolo Ë noto il codice 
+numerico (univoco), il prezzo unitario, la quantità acquistata e una breve 
 descrizione dellíarticolo (max 30 caratteri). Líaddetto alla cassa inserisce i 
 prodotti acquistati uno alla volta (si supponga che il prodotto venga passato 
 sopra un lettore di codice a barre), ma il software deve memorizzare i prodotti 
