@@ -6,6 +6,19 @@ public:
   void coolSaying(){
     cout << "ciao << endl; 
   }
+  string name; //DON'T DO THIS. Making class variables public is not a good practice. It makes programs easy to mess up 
+  
+  void setName(string x){ //setter function. We don't have direct access to the variable so we change it with this function 
+    name = x
+  }
+  
+  string getName(){ //and to get the value of the variable we use this other function 
+    return name; 
+  }
+  
+private:
+  string name2; //you make the variable private and instead you make the function that accesses it public in order to use it 
+  
 }
 
 //an object is how you access the stuff inside of your class. 
