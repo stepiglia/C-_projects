@@ -31,64 +31,93 @@ int main() {
             {0,5,1,4,5,7,9,8},
             {6,3,1,2,4,7,7,0},
 
-};
-
-   stampaMatrice(mat);
+            };
+    
+    stampaMatrice(mat);
     
     int nvolte = individuaSequenza(mat,numero);
     cout << "Il totale dei match è: " << nvolte <<endl;
-     
-    
-
-};//end of main
+}//end of main
 
     
 //----------------------------
 int individuaSequenza(int mat[R][C], int numero[4]){
     //ciclo righe
     int contatore = 0;
-    int i=0,j=0,k=0;
+    int i=0,j=0,cifra=0, x, y,x0, y0;
     
-        for (i=0;i<R;i++) {
-
-            //ciclo fino a metà della matrice
-            for(j=0;j<=C/2;j++) {
-                k=0;
-                
-                //controllo il primo numero
-                if ((mat[i][j]/numero[k]==1)) {
-                    if ((mat[i][j+1]/numero[k+1]==1)&& (mat[i][j+2]/numero[k+2]==1)&&(mat[i][j+3]/numero[k+3]==1)){
-                      
-            //se lo trovo controllo le altre cifre
-            cout << "(trovato destroso nella posizione :(" << i <<" - " << j << ")\n";
-                        contatore++;}
-        }
-        // caso a capo TODO
-      }
-    }
-
-      // SINISTROSO
+    //------- DESTROSO -------
     
-      //itero sulle righe
-      for (i=0;i<R;i++) {
-          //itero sulle colonne ma dall'ultima indietro fino alla metà compresa
-          for (j=C-1;j>=C/2;j--) {
-          //k = 0 perchè il numero si resetta controllando le cifre dalla parte zero
-              k=0;
-              if ((mat[i][j]/numero[k]==1)) {
-       
-                  //se il primo numero da sinistra a destra per le
-                  if ((mat[i][j-1]/numero[k+1]==1)&& (mat[i][j-2]/numero[k+2]==1)&&(mat[i][j-3]/numero[k+3]==1)){
-           
-                      cout << "trovato sinistroso nella posizione :(" << i << " - " << j << ")\n";
-                      contatore++;}
+    //scorro righe
+    for (i=0;i<R;i++)
+    {//scorro colonne
+        for(j=0;j<C;j++)
+        {
+        //parto dalla prima riga del numero cercato
+        cifra=0;
             
+            int match = 0; //contatore dei match
+            x0 = i; //posizione riga prima che aumento
+            y0 = j; //posizione colonna prima che aumento
+            for(cifra=0; cifra<4; cifra++){
+                x = i;
+                y = j+cifra;
+                
+                //se sforo e vado oltre le colonne
+                if(j+cifra>=C){
+                    y = y-C;
+                    x = x+1;
+                }
+                
+                //mi assicuro di stare solo dentro le right
+                if(x<R){
+                    if(mat[x][y]==numero[cifra])
+                        match++; //controllo la cifra dopo
+                }
+            } //chiudo for del ciclo delle cifre del numero
+               
+            if(match==4){
+                cout << "(trovato destroso nella posizione :(" << x0+1  <<" - " << y0+1 << ")\n";
+                contatore++;
+            }
         }
-       //Caso a capo
-      }
+    }
+    
+    //SINISTROSO
+    for (i=0;i<R;i++){
+        for(j=0;j<C;j++){
+                cifra=3;
+                
+            int match = 0;
+            x0 = i;
+            y0 = j;
+            
+            for(cifra=0; cifra<4; cifra++){
+                x = i;
+                y = j+cifra;
+
+                if(j+cifra>=C){
+                    y = y-C;
+                    x = x+1;
+                }
+                
+                if(x<R){
+                    if(mat[x][y]==numero[3-cifra])
+                        match++; //controllo la cifra dopo
+                }
+            } //chiudo for
+               
+            if(match==4){
+                cout << "(trovato sinistroso nella posizione :(" << x <<" - " << y << ")\n";
+                contatore++;
+            }
+        }
     }
     return contatore;
-};//end fun
+}
+    
+
+    
 
 void stampaMatrice(int mat[R][C]){
 
@@ -99,32 +128,29 @@ for (i=0;i<R;i++) {
     }
     cout << endl;
     }
-};
-
-
-
-
-
-
-
-
-/*
- size_t i, j, size, rows, cols;
- int founded = 0;
-
- size = sizeof(A) / sizeof(A[0]);
- rows = sizeof(B) / sizeof(B[0]);
- cols = sizeof(B[0]) / sizeof(B[0][0]);
- for (i = 0; i < rows; i++) {
-     for (j = 0; j < cols - size; j++) {
-         if (memcmp(A, &B[i][j], sizeof(A)) == 0) {
-             founded = 1;
-             break;
-         }
-     }
-     if (founded) break;
- }
- if (founded) printf("Row: /zu Col: /zu\n", i + 1, j + size);
- return 0;
 }
-*/
+
+        
+        /* SINISTROSO
+      
+        //itero sulle righe
+        for (i=0;i<R;i++) {
+            //itero sulle colonne ma dall'ultima indietro fino alla metà compresa
+            for (j=C-1;j>=C/2;j--) {
+            //cifra = 0 perchè il numero si resetta controllando le cifre dalla parte zero
+                cifra=0;
+                if ((mat[i][j]/numero[cifra]==1)) {
+         
+                    //se il primo numero da sinistra a destra per le
+                    if ((mat[i][j-1]/numero[cifra+1]==1)&& (mat[i][j-2]/numero[cifra+2]==1)&&(mat[i][j-3]/numero[cifra+3]==1)){
+             
+                        cout << "trovato sinistroso nella posizione :(" << i << " - " << j << ")\n";
+                        contatore++;}
+              
+          }
+         //Caso a capo
+        }
+      }
+      return contatore;
+  };//end fun*/
+
