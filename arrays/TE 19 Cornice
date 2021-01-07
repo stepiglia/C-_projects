@@ -1,0 +1,103 @@
+//
+//  main.cpp
+//  P2 - cercaParolaInCornice
+//
+//  Created by Stefano Pigliafreddo on 05/01/2021.
+//
+
+/*
+Si scriva, in linguaggio C++, la funzione cercaParolaInCornice che avendo come parametri una matrice di caratteri, un array di caratteri contenente la parola da cercare nella matrice e l’indicazione di una cornice (sono accettate solo le cornici 1 e 2 rappresentate in blu e rosso), cerchi se esiste una cornice che contiene la parola, nel qual caso restituisce le coordinate della cella che costituisce il centro della cornice in cui è stata trovata la parola e l’indicazione della posizione sulla cornice a partire dalla quale si legge tale parola, supponendo che la ricerca della parola proceda sempre in senso orario sulla cornice. Si può supporre che la parola compaia al più una volta nella matrice.
+ 12345 16 1 2 3 6 158 47 14 7 6 5 8 13 12 11 10 9
+Considerando l’immagine di fianco, rispetto alla cella X la cornice di tipo “1” è quella costituita dalle celle il cui valore è stato rappresentato col colore blu (ossia le celle che distano un passo dalla cella X) mentre la cornice di tipo “2” è quella costituita dalle celle il cui valore è stato rappresentato col colore rosso (ossia le celle che distano due passi dalla cella X).
+Sempre nella figura a fianco, i valori numerici presenti nelle due cornici indicano la posizione della cella rispetto alla cornice, ossia la posizione da restituire come punto di partenza della parola individuata.
+Ad esempio, passando come parametri la matrice riportata a fianco, un array contenente la parola “CACIUCCO” e scelta della cornice di tipo “1”, la funzione deve restituire le coordinate (4,3) della cella al centro della cornice e la posizione 7 sulla cornice come posizione iniziale.
+Se invece, con la stessa matrice, passiamo un array contenente la parola “BATRACOMIOMACHIA” e scegliamo la cornice di tipo “2”, la funzione restituisce le coordinate (3,5) della cella centrale e la posizione 7 sulla cornice come posizione iniziale della parola.*/
+
+#include <iostream>
+#include <iomanip>
+#include <string>
+using namespace std;
+
+//------ VARIABILI -------
+int const R = 6;
+int const C = 8;
+int const DIMMAX = 20;
+//------ PROTOTIPI -------
+
+void cercaParolaInCornice(char mat[R][C],char const parola[DIMMAX]);
+
+//------ MAIN  -------
+
+int main() {
+    
+    char mat[R][C] = {
+        {'A','B','B','F','I','R','A','G'},
+        {'O','D','O','M','A','C','H','I'},
+        {'T','A','N','O','V','N','C','A'},
+        {'N','V','C','I','U','D','L','B'},
+        {'M','U','A','M','C','M','B','A'},
+        {'Q','G','C','O','C','A','R','T'}
+    };
+        
+    char parola[DIMMAX] = "BATRACOMIOMACHIA";
+
+    cercaParolaInCornice(mat, parola);
+
+};//end of main
+
+//------ FUNZIONI -------
+void cercaParolaInCornice(char mat[R][C],char const parola[DIMMAX]){
+    
+    //cornice di tipo 1
+    int i = 0, j = 0, k = 0, z = 0;
+    int x, y;
+    int len = int(strlen(parola))/4;
+
+
+    //TODO if(strlen) then 1 if 16 tipo 2
+    
+    //scorro dalla seconda riga alla penultima perchè altrimenti non c'è la cornice
+    for(i=1;i<R-1;i++) {
+        
+        //scorro dalla seconda colonna alla penultima perchè altrimenti non c'è la cornice
+        for(j=1;j<C-1;j++){
+            
+            int cifra = 0; //cifra del numero cercato
+            int match = 0; //numero dei match
+            int pos  = 0;
+            
+            //controllo di aver trovato la prima lettera
+            if(parola[cifra]==mat[i][j]){
+                cifra++; //controllo la seconda
+                
+                int angolo = 0;
+                //se destra
+                if(parola[cifra]==mat[i][j+1]){int x= i+1, y=i+2+k;  angolo = 5 ;}
+                //sotto
+                if(parola[cifra]==mat[i+1][j]){int x=j+k, y = j;  angolo = 9 ;}
+                //sinitra
+                if(parola[cifra]==mat[i][j-1]){int x= i+1, y= j+k;  angolo = 13 ;}
+                //sopra
+                if(parola[cifra]==mat[i-1][j]){int x= i-k, y = j; angolo = 16 ;}
+                 
+                //controllo cifra successiva e casella
+                for(k=0;k<=len;k++){
+                    if(parola[cifra+k]==mat[x][y]){
+                        match++; //è già 1
+                    }
+                        pos = angolo-match;
+                    }
+                cout << pos;
+
+        }
+    }
+                        
+}//end fun
+            
+
+int getIndexInRange(index, length) {
+      var trim = index % length;
+      var nonNegative = trim + length;
+      return nonNegative % length;
+    }
+     
